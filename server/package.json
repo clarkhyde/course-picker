@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
     "bcrypt": "^5.0.1",
+=======
+>>>>>>> e878d353de5ca0f3797a15b3c98eee1d235020a2
     "bookshelf": "^1.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -19,7 +22,10 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7",
     "passport": "^0.4.1",
+<<<<<<< HEAD
     "passport-jwt": "^4.0.0",
+=======
+>>>>>>> e878d353de5ca0f3797a15b3c98eee1d235020a2
     "passport-local": "^1.0.0"
   }
 }
