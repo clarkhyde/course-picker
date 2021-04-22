@@ -1,78 +1,93 @@
+import React, { Component } from 'react';
 import axios from 'axios'
-import React,{ useState, useRef } from 'react';
 import { Redirect,Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import './Login.scss';
-const baseUrl = 'http://localhost:8080';
-const loginURL = `${baseUrl}/login`;
+const baseUrl = 'http://localhost:8080'
+const loginURL = `${baseUrl}/login`
 
-const Login = () => {
-    const [isLoggedIn, setLogin]= useState(false);
-    const [isLoginError, setLoginError]=useState(false);
-    const inputEl = useRef(null);
-    // const [errorMessage, setErrorMessage]=useRef(null);
 
-    const login = (event) =>{
+class Login extends Component {
+    state = {
+        isLoggedIn: false,
+        isLoginError: false,
+        errorMessage: ''
+      }
+
+    login = (event) =>{
         event.preventDefault();
-        console.log(event);
-        console.log(event.target);
-        if(event.target.username.value === "" || event.target.password.value === ""){
-            setLoginError(true);
-            // setErrorMessage("You must provide a username and password");
-            // isLoginError: true,
-            // errorMessage: "You must provide a username and password."
-            return;
+        const { username, password } = this.loginForm;
+    
+        if(username.value === "" || password.value === ""){
+          this.setState({
+            isLoginError: true,
+            errorMessage: "You must provide a username and password."
+          })
+          return;
         }
+    
         axios.post(loginURL,{
-          username: event.target.username.value,
-          password: event.target.password.value
+          username: username.value,
+          password: password.value
         })
         .then((response)=>{
           if(response.data.error){
-            setLoginError(true);
-            // setErrorMessage(response.data.error.message);
-            //   isLoginError: true,
-            //   errorMessage: response.data.error.message
+            this.setState({
+              isLoginError: true,
+              errorMessage: response.data.error.message
+            })
             return;
-          }
+          } 
+          console.log(response.data.token);
           sessionStorage.setItem("authToken", response.data.token)
-          setLogin(true);
-          setLoginError(false);
-            // isLoggedIn: true,
-            // isLoginEroor: false
+          this.setState({
+            isLoggedIn: true,
+            isLoginEroor: false
+          });
         })
         .catch((err)=>{
           console.log(err);
         });
-    }
+      }
 
-    const renderLogin = () => {
-       // const { isLoginError, errorMessage } = this.state
+    renderLogin = () => {
+        const { isLoginError, errorMessage } = this.state
         return (
 
           <div className="login">
             <header className="login__header">Login</header>
-            {isLoginError && <label style={{color: 'red'}}>Incorrect Login</label>}
+            {isLoginError && <label style={{color: 'red'}}>{errorMessage}</label>}
 
-            <form ref={inputEl}>
-                <label className='form-label' htmlFor="username">Username: </label>
-                <input type='text' name='username' placeholder="Enter username"/>
-                <label className='form-label' htmlFor="password">Password: </label>
-                <input type='password' name='password' placeholder="Enter Password"/>
-               <button className='btn btn-primary' type="submit" onSubmit={event=>login(event)}>
+            <Form ref={form => (this.loginForm = form)}>
+              <Form.Group>
+                <Form.Label className='form-label' htmlFor="username">username: </Form.Label>
+                <Form.Control type='text' name='username' placeholder="Enter user name"/>
+              </Form.Group>  
+              <Form.Group>
+                <Form.Label className='form-label' htmlFor="password">Password: </Form.Label>
+                <Form.Control type='password' name='password' placeholder="Enter Password"/>
+              </Form.Group>
+              <Button className='btn btn-primary' onClick={this.login}>
                 Login
-              </button> 
-            </form>
+              </Button>
+            </Form>
+          <Link className="login__links" to="/register">Need to register?</Link>
           </div>
         )
       }
-      if(!isLoggedIn) return renderLogin();
-    return (
-        <div>
-            {!isLoggedIn ?<div>Try again</div>: <Redirect to="/course-picker"/>}
-        </div>
-    );
-};
+
+
+
+    render() {
+        const { isLoggedIn } = this.state;
+       if(!isLoggedIn) return this.renderLogin();
+        return (
+            <div>
+                {!isLoggedIn ?<div>Try again</div>: <Redirect to="/course-picker"/>}
+            </div>
+        );
+    }
+}
 
 export default Login;

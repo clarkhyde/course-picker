@@ -43,6 +43,7 @@ router.post('/login', (req, res)=>{
                     if(result){
                         const payload = {username: userReq};
                         const token = jwt.sign(payload, process.env.JWT_KEY);
+                        console.log(token);
                         res.status(200).json({token});
                     } else{
                         res.status(403).json({err: "Incorrect Password"});

@@ -9,7 +9,7 @@ const NavigationBar = () => {
         <div>
             <NavLink to="/">Home</NavLink>
             <NavLink to="/courses">Courses</NavLink>
-            <NavLink to="/picker">Pick a Course</NavLink>
+            <NavLink to="/course-picker">Pick a Course</NavLink>
             <LogoutButton/>
         </div>
     );
