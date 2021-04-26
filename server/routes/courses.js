@@ -32,6 +32,7 @@ router.get(`/courses`,(req,res)=>{
         .fetchAll()
         .then(courses=>{
             res.status(200).json(courses);
+            console.log("success");
         })
         .catch(()=>{
             return res.status(404).json({error: "an error has occured, please try again later"})
