@@ -22,7 +22,7 @@ function App() {
               <Redirect to="/login"/>
             )
           )} /> */}
-          <Route path="/course-picker" component={Picker}/> 
+          <Route path="/course-picker" component={Picker}/>
           <Route path="/courses" component={Courses}/>
         </Switch>
       </BrowserRouter>
