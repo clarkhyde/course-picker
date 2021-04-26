@@ -5,6 +5,7 @@ import Login from "./components/Login/Login.js";
 import NavigationBar from "./components/NavigationBar/NavigationBar.js";
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Register from "./components/Register/Register.js";
+import './App.scss';
 
 function App() {
   return (
